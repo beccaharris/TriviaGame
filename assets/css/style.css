@@ -2,3 +2,6 @@ body, html {
   background-image: url('../images/trivia_background.jpg');
   padding-bottom: 70px;
 }
+.card {
+  margin-top: 50px;
+}
