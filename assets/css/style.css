@@ -5,3 +5,15 @@ body, html {
 .card {
   margin-top: 50px;
 }
+.card-body {
+  text-align: center
+}
+.card-title {
+  font-size: 60px;
+  margin-bottom: 25px;
+}
+.btn-lg {
+  margin-top: 30px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
