@@ -7,12 +7,13 @@ $(document).ready(function() {
     startGame(); 
     displayCurrentQnA();
   });
-  // when you click the next button, the next question in the triviaQuestions array should show // 
-  $("#next-button").on("click", function(){
-    $('li').remove();
+  // when you click an answer, the next question in the triviaQuestions array should show // 
+  $("#choices").on("click", function(){
     currentQuestion++;
     questionChoices++;
+    $('#choices').empty();
     displayCurrentQnA();
+    console.log(triviaQuestions[currentQuestion].correctAnswer)
   })
   
 })
@@ -35,8 +36,6 @@ function startGame () {
       timerElement.html('Time Remaining: ' + timeRemaining + ' seconds')
       timeRemaining--;
     };
-    //show my next button
-    $('#next-button').show();
   }
 }
 // Array of Questions // 
@@ -76,9 +75,6 @@ var correctAnswers = 0;
 function displayCurrentQnA() {
   $('#question').text(triviaQuestions[currentQuestion].question);
   for (var i = 0; i < triviaQuestions[currentQuestion].choices.length; i++) {
-    console.log(triviaQuestions[currentQuestion].choices[i]);
-    $('li').addClass('answer-item')
-    $('#choices').append('<li><input type="radio">' + triviaQuestions[currentQuestion].choices[i] + '</input></li>');
-    
+    $('#choices').append('<button id="answer-choice" class="choice">' + triviaQuestions[currentQuestion].choices[i] + '</button>');
 }}
 
