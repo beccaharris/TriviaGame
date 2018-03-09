@@ -1,42 +1,3 @@
-$(document).ready(function() {
-
-  // Function for clicking the start button - should run the "startGame" function and hide the Start button //
-  $("#start-button").on("click", function(){
-    $(this).hide();
-    startGame(); 
-    questionCycle();
-    console.log(triviaQuestions[currentQuestion].correctAnswer)
-  });
-  // when you click an answer, the next question in the triviaQuestions array should show // 
-  //$("#choices").on("click", function(){
-  //  currentQuestion++;
-  //  questionChoices++;
-  //  $('#choices').empty();
-  //  displayQnA();
-  //})
-  
-})
-
-// Function to start the game// 
-function startGame () {
-  // define timeRemaining for the timer
-  var timeRemaining = 15;
-  // makes the timer count down by 1000 milliseconds (1 second) // 
-  var timerId = setInterval(countdown, 1000);
-  // grabs the timer html element and gives it a var
-  var timerElement = $('#timer');
-  
-  function countdown() {
-    //once the timer hits 0, stop it (or it'll keep counting to negative) //
-    if (timeRemaining == -1) {
-      clearTimeout(timerId);
-      // if the timer isn't at 0, keep counting down. 
-    } else {
-      timerElement.html('Time Remaining: ' + timeRemaining + ' seconds')
-      timeRemaining--;
-    };
-  }
-}
 // Array of Questions // 
 var triviaQuestions = [{
     question: "What is the world's largest ocean?",
@@ -74,10 +35,15 @@ var correctAnswers = 0;
 var callCurrentQ = triviaQuestions[currentQuestion].question;
 var callCurrentChoices = triviaQuestions[currentQuestion].choices;
 
-//***********************************//
-// Function to set up questions & answers // 
-//**********************************//
+$(document).ready(function() {
+  $("#start-button").on("click", function(){
+    $(this).hide();
+    questionCycle();
+  });
+})
+
 function questionCycle() {
+  // Set up questions & answers // 
   $('#question-display').html('<h3>' + callCurrentQ + '</h3>');
   for (var i = 0; i < callCurrentChoices.length; i++) {
     var choices = $('<div>');
@@ -86,12 +52,28 @@ function questionCycle() {
     choices.text(triviaQuestions[currentQuestion].choices[i]);
     $('#choices').append(choices);
   }
-
-  //***********************************//
-  // Pause the timer when an answer is chosen
-  //***********************************//
+  // Start timer//
+  countdown();
+  // Pause the timer when an answer is chosen && give variable userChoice a value //
   $('.answer-choice').on('click', function() {
-    userChoice = $(this).data('index')
+    userChoice = $(this).data('index');
+    clearInterval(other)
   })
+}
+// ********************************************** //
+// Function to set up timer and count down from 15 seconds //
+// ********************************************** //
+function countdown(){
+	time = 15;
+	$('#timer').html('<h3>Time Remaining: ' + time + '</h3>');
+  other = setInterval(startCount, 1000);
+  function startCount() {
+    if (time < 1) {
+      clearInterval(other);
+    } else {
+      time--;
+      $('#timer').html('<h3>Time Remaining: ' + time + '</h3>')
+    }
+  }
 }
 
