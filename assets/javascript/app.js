@@ -25,26 +25,26 @@ var triviaQuestions = [{
     correctAnswer: 3
   }
 ];
-// default index of the current question
 var currentQuestion = 0;
-// default index of the current answer choices
 var questionChoices = 0;
-// Basically start with a score of 0
 var correctAnswers = 0;
+var wrongAnswers = 0;
 
-var callCurrentQ = triviaQuestions[currentQuestion].question;
 var callCurrentChoices = triviaQuestions[currentQuestion].choices;
+var callCorrectAns = triviaQuestions[currentQuestion].correctAnswer;
 
 $(document).ready(function() {
   $("#start-button").on("click", function(){
     $(this).hide();
     questionCycle();
+    console.log(triviaQuestions[currentQuestion].correctAnswer)
+
   });
 })
 
 function questionCycle() {
   // Set up questions & answers // 
-  $('#question-display').html('<h3>' + callCurrentQ + '</h3>');
+  $('#question-display').html('<h3>' + triviaQuestions[currentQuestion].question + '</h3>');
   for (var i = 0; i < callCurrentChoices.length; i++) {
     var choices = $('<div>');
     choices.attr('data-index', i);
@@ -57,7 +57,9 @@ function questionCycle() {
   // Pause the timer when an answer is chosen && give variable userChoice a value //
   $('.answer-choice').on('click', function() {
     userChoice = $(this).data('index');
-    clearInterval(other)
+    clearInterval(other);
+    console.log(userChoice);
+    showAnswer();
   })
 }
 // ********************************************** //
@@ -75,5 +77,40 @@ function countdown(){
       $('#timer').html('<h3>Time Remaining: ' + time + '</h3>')
     }
   }
+}
+
+function showAnswer() {
+  $('#question-display').empty();
+  $('#choices').empty();
+  var answerAlert = $('<div>')
+  if ( userChoice == triviaQuestions[currentQuestion].correctAnswer) {
+    answerAlert.addClass('alert alert-success');
+    answerAlert.attr('role', 'alert');
+    answerAlert.text('You got the answer right!')
+    $('#result').append(answerAlert);
+    correctAnswers++;
+    console.log(correctAnswers)
+  } else {
+    answerAlert.addClass('alert alert-danger');
+    answerAlert.attr('role', 'alert');
+    answerAlert.text('You got the answer wrong!')
+    $('#result').append(answerAlert);
+    wrongAnswers++;
+    console.log(wrongAnswers)
+  }
+
+  if (currentQuestion == (triviaQuestions.length-1)){
+		setTimeout(endGame, 5000)
+	} else {
+    currentQuestion++
+    setTimeout(questionCycle, 3000);
+    setTimeout(function() {
+      $('.alert').remove();
+    }, 3000)
+	}
+}
+
+function endGame() {
+  alert("Game is over!")
 }
 
