@@ -1,27 +1,26 @@
 $(document).ready(function() {
-  // Hide the next button on page load //
-  $('#next-button').hide();
+
   // Function for clicking the start button - should run the "startGame" function and hide the Start button //
   $("#start-button").on("click", function(){
     $(this).hide();
     startGame(); 
-    displayCurrentQnA();
+    questionCycle();
+    console.log(triviaQuestions[currentQuestion].correctAnswer)
   });
   // when you click an answer, the next question in the triviaQuestions array should show // 
-  $("#choices").on("click", function(){
-    currentQuestion++;
-    questionChoices++;
-    $('#choices').empty();
-    displayCurrentQnA();
-    console.log(triviaQuestions[currentQuestion].correctAnswer)
-  })
+  //$("#choices").on("click", function(){
+  //  currentQuestion++;
+  //  questionChoices++;
+  //  $('#choices').empty();
+  //  displayQnA();
+  //})
   
 })
 
 // Function to start the game// 
 function startGame () {
   // define timeRemaining for the timer
-  var timeRemaining = 30;
+  var timeRemaining = 15;
   // makes the timer count down by 1000 milliseconds (1 second) // 
   var timerId = setInterval(countdown, 1000);
   // grabs the timer html element and gives it a var
@@ -72,9 +71,27 @@ var questionChoices = 0;
 // Basically start with a score of 0
 var correctAnswers = 0;
 
-function displayCurrentQnA() {
-  $('#question').text(triviaQuestions[currentQuestion].question);
-  for (var i = 0; i < triviaQuestions[currentQuestion].choices.length; i++) {
-    $('#choices').append('<button id="answer-choice" class="choice">' + triviaQuestions[currentQuestion].choices[i] + '</button>');
-}}
+var callCurrentQ = triviaQuestions[currentQuestion].question;
+var callCurrentChoices = triviaQuestions[currentQuestion].choices;
+
+//***********************************//
+// Function to set up questions & answers // 
+//**********************************//
+function questionCycle() {
+  $('#question-display').html('<h3>' + callCurrentQ + '</h3>');
+  for (var i = 0; i < callCurrentChoices.length; i++) {
+    var choices = $('<div>');
+    choices.attr('data-index', i);
+    choices.addClass('answer-choice');
+    choices.text(triviaQuestions[currentQuestion].choices[i]);
+    $('#choices').append(choices);
+  }
+
+  //***********************************//
+  // Pause the timer when an answer is chosen
+  //***********************************//
+  $('.answer-choice').on('click', function() {
+    userChoice = $(this).data('index')
+  })
+}
 
