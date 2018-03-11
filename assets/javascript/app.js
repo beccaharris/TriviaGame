@@ -26,26 +26,24 @@ var triviaQuestions = [{
   }
 ];
 var currentQuestion = 0;
-var questionChoices = 0;
 var correctAnswers = 0;
 var wrongAnswers = 0;
-
-var callCurrentChoices = triviaQuestions[currentQuestion].choices;
-var callCorrectAns = triviaQuestions[currentQuestion].correctAnswer;
+var unansweredQuestions = 0;
+var answerAlert = $('<div>');
+var userChoice;
+var answered;
 
 $(document).ready(function() {
   $("#start-button").on("click", function(){
     $(this).hide();
     questionCycle();
-    console.log(triviaQuestions[currentQuestion].correctAnswer)
-
   });
 })
 
 function questionCycle() {
   // Set up questions & answers // 
   $('#question-display').html('<h3>' + triviaQuestions[currentQuestion].question + '</h3>');
-  for (var i = 0; i < callCurrentChoices.length; i++) {
+  for (var i = 0; i < triviaQuestions[currentQuestion].choices.length; i++) {
     var choices = $('<div>');
     choices.attr('data-index', i);
     choices.addClass('answer-choice');
@@ -57,8 +55,8 @@ function questionCycle() {
   // Pause the timer when an answer is chosen && give variable userChoice a value //
   $('.answer-choice').on('click', function() {
     userChoice = $(this).data('index');
-    clearInterval(other);
-    console.log(userChoice);
+    clearInterval(time);
+    answered = true;
     showAnswer();
   })
 }
@@ -66,15 +64,18 @@ function questionCycle() {
 // Function to set up timer and count down from 15 seconds //
 // ********************************************** //
 function countdown(){
-	time = 15;
-	$('#timer').html('<h3>Time Remaining: ' + time + '</h3>');
-  other = setInterval(startCount, 1000);
+	secondsLeft = 2;
+	$('#timer').html('<h4>Time Remaining: ' + secondsLeft + '</h4>');
+  time = setInterval(startCount, 1000);
+  answered = true;
   function startCount() {
-    if (time < 1) {
-      clearInterval(other);
+    if (secondsLeft < 1) {
+      clearInterval(time);
+      answered = false;
+      showAnswer();
     } else {
-      time--;
-      $('#timer').html('<h3>Time Remaining: ' + time + '</h3>')
+      secondsLeft--;
+      $('#timer').html('<h4>Time Remaining: ' + secondsLeft + '</h4>')
     }
   }
 }
@@ -82,21 +83,25 @@ function countdown(){
 function showAnswer() {
   $('#question-display').empty();
   $('#choices').empty();
-  var answerAlert = $('<div>')
-  if ( userChoice == triviaQuestions[currentQuestion].correctAnswer) {
+  if (userChoice == triviaQuestions[currentQuestion].correctAnswer) {
     answerAlert.addClass('alert alert-success');
     answerAlert.attr('role', 'alert');
     answerAlert.text('You got the answer right!')
-    $('#result').append(answerAlert);
+    $('#result-message').append(answerAlert);
     correctAnswers++;
-    console.log(correctAnswers)
-  } else {
+  } else if ((userChoice != triviaQuestions[currentQuestion].correctAnswer) && (answered == true)) {
     answerAlert.addClass('alert alert-danger');
     answerAlert.attr('role', 'alert');
     answerAlert.text('You got the answer wrong!')
-    $('#result').append(answerAlert);
+    $('#result-message').append(answerAlert);
     wrongAnswers++;
-    console.log(wrongAnswers)
+  } else {
+    unansweredQuestions++;
+    answerAlert.addClass('alert alert-primary');
+    answerAlert.attr('role', 'alert');
+    answerAlert.text('Oh no! You ran out of time...');
+    $('#correct-answer').text("The correct answer was....")
+    $('#result-message').append(answerAlert);
   }
 
   if (currentQuestion == (triviaQuestions.length-1)){
