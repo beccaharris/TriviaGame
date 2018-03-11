@@ -83,6 +83,8 @@ function countdown(){
 function showAnswer() {
   $('#question-display').empty();
   $('#choices').empty();
+  var correctAnswerIndex = triviaQuestions[currentQuestion].correctAnswer;
+  var correctAnswerText = triviaQuestions[currentQuestion].choices[triviaQuestions[currentQuestion].correctAnswer];
   if (userChoice == triviaQuestions[currentQuestion].correctAnswer) {
     answerAlert.addClass('alert alert-success');
     answerAlert.attr('role', 'alert');
@@ -100,7 +102,7 @@ function showAnswer() {
     answerAlert.addClass('alert alert-primary');
     answerAlert.attr('role', 'alert');
     answerAlert.text('Oh no! You ran out of time...');
-    $('#correct-answer').text("The correct answer was....")
+    $('#correct-answer').text("The correct answer was...." + correctAnswerText)
     $('#result-message').append(answerAlert);
   }
 
