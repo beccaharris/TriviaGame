@@ -195,7 +195,7 @@ function showAnswer() {
       questionCycle();
       $('#corrected-answer').empty();
       $('#gif').empty();
-    }, 3000)
+    }, 5000)
 	}
 }
 
