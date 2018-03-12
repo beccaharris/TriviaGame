@@ -1,4 +1,5 @@
-// Array of Questions // 
+// Array of Trivia Questions //
+// ========================= //
 var triviaQuestions = [{
     question: "What is the world's largest ocean?",
     choices: ["The Pacific Ocean", "The Atlantic Ocean", "The Indian Ocean", "The Arctic Ocean"],
@@ -61,22 +62,32 @@ var triviaQuestions = [{
     correctAnswer: 2
   }
 ];
+// Messages for he answer pages and for the closing page //
+// ===================================================== //
 var resultMessages = {
   correct: "Great job! You got the answer right!",
   incorrect: "Bummer - you guessed the wrong answer. Better luck next time.",
   timeUp: "Ruh roh...you ran out of time!",
   atGameEnd: "Whew! You're done...Let's take a look at your results:"
 }
+// Audio File to be played in background //
+// ===================================== //
+var oceanSound = new Audio('assets/images/ocean.mp3');
+// Giphy searches (correspond with question index spots) //
+// ===================================================== //
 var searchGiphs = ["ocean", "blue+whale", "animals+walrus", "ocean+scallops", "ocean+giant+squid", "ocean+baby+octopus", "animal+whale+shark", "ocean+crab", "ocean+colorful+seahorse", "animal+eel", "animal+great+white+shark", "ocean+animal+seal", "animal+sea+otter", "nature-jellyfish", "animal+cuttlefish"]
+// All other vars //
+// ============== //
 var currentQuestion;
 var correctAnswers;
 var wrongAnswers;
 var unansweredQuestions;
 var userChoice;
 var answered;
-
-
+// On document load //
+// ================ //
 $(document).ready(function() {
+  oceanSound.play();
   $('#play-again-button').hide();
   $("#start-button").on("click", function(){
     $(this).hide();
@@ -87,13 +98,13 @@ $(document).ready(function() {
     resetGame();
   })
 })
-
+// Function to reset all vars to default values //
+// ============================================ //
 function resetGame() {
   $('#end-message').empty();
   $('#final-number-correct').empty();
   $('#final-number-incorrect').empty();
   $('#final-number-unanswered').empty();
-
   currentQuestion = 0;
   correctAnswers = 0;
   wrongAnswers = 0;
@@ -142,7 +153,8 @@ function countdown(){
     }
   }
 }
-
+// Function to load the answer page and check if answer is correct // 
+// =============================================================== //
 function showAnswer() {
   $('#question-display').empty();
   $('#choices').empty();
@@ -165,22 +177,19 @@ function showAnswer() {
   });
   
   if ((userChoice == triviaQuestions[currentQuestion].correctAnswer) && (answered == true)) {
-    answerAlert.addClass('alert');
-    answerAlert.attr('role', 'alert');
+    answerAlert.addClass('alert').attr('role', 'alert');
     answerAlert.text(resultMessages.correct)
     $('#result-message').append(answerAlert);
     correctAnswers++;
   } else if ((userChoice != triviaQuestions[currentQuestion].correctAnswer) && (answered == true)) {
-    answerAlert.addClass('alert');
-    answerAlert.attr('role', 'alert');
+    answerAlert.addClass('alert').attr('role', 'alert');
     answerAlert.text(resultMessages.incorrect);
     $('#corrected-answer').html("The correct answer was: " + correctAnswerText)
     $('#result-message').append(answerAlert);
     wrongAnswers++;
   } else {
     unansweredQuestions++;
-    answerAlert.addClass('alert');
-    answerAlert.attr('role', 'alert');
+    answerAlert.addClass('alert').attr('role', 'alert');
     answerAlert.text(resultMessages.timeUp);
     $('#corrected-answer').text("The correct answer was: " + correctAnswerText)
     $('#result-message').append(answerAlert);
@@ -198,7 +207,8 @@ function showAnswer() {
     }, 5000)
 	}
 }
-
+// Load the final game screen once all questions have been answered //
+// ================================================================ //
 function endGame() {
   $('#timer').empty();
   $('#result-message').empty();
