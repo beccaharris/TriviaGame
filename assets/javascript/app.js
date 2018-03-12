@@ -91,6 +91,7 @@ $(document).ready(function() {
   $('#play-again-button').hide();
   $("#start-button").on("click", function(){
     $(this).hide();
+    $('#instructions').hide();
     resetGame();
   });
   $('#play-again-button').on("click", function() {
