@@ -128,7 +128,7 @@ function questionCycle() {
 // ======================================================= //
 function countdown(){
 	secondsLeft = 15;
-	$('#timer').html('<h4>Time Remaining: ' + secondsLeft + '</h4>');
+	$('#timer').html('<h4 class="text-muted">Time Remaining: ' + secondsLeft + '</h4>');
   time = setInterval(startCount, 1000);
   answered = true;
   function startCount() {
@@ -138,7 +138,7 @@ function countdown(){
       showAnswer();
     } else {
       secondsLeft--;
-      $('#timer').html('<h4>Time Remaining: ' + secondsLeft + '</h4>')
+      $('#timer').html('<h4 class="text-muted">Time Remaining: ' + secondsLeft + '</h4>')
     }
   }
 }
@@ -157,10 +157,10 @@ function showAnswer() {
 		var currentGif = giphy.data;
 		$.each(currentGif, function(index,value){
 		  var embedGif = value.images.original.url;
-		  newGif = $('<img>');
-		  newGif.attr('src', embedGif);
-		  newGif.addClass('gifImg');
-		  $('#gif').html(newGif);
+		  giphyGif = $('<img>');
+		  giphyGif.attr('src', embedGif);
+      giphyGif.addClass('giphy-gif');
+		  $('#gif').html(giphyGif);
 		});
   });
   
