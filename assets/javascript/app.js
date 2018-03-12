@@ -149,7 +149,7 @@ function showAnswer() {
   var answerAlert = $('<div>');
   var correctAnswerIndex = triviaQuestions[currentQuestion].correctAnswer;
   var correctAnswerText = triviaQuestions[currentQuestion].choices[triviaQuestions[currentQuestion].correctAnswer];
-  var giphyURL = "http://api.giphy.com/v1/gifs/search?q=" + searchGiphs[currentQuestion] + "&limit=1&rating=g&api_key=1Pcm3RD1MLLpLwru1GsRqd34UJh96MMs"
+  var giphyURL = "https://api.giphy.com/v1/gifs/search?q=" + searchGiphs[currentQuestion] + "&limit=1&rating=g&api_key=1Pcm3RD1MLLpLwru1GsRqd34UJh96MMs"
 	$.ajax({
     url: giphyURL, 
     method: 'GET'
