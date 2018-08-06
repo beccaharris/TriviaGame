@@ -9,5 +9,5 @@ jQuery
 Bootstrap
 
 <h2>Deployment</h2>
-To see the app in action, go to https://beccaharris.github.io/TriviaGame
+To see the app in action, go to https://beccakostyo.github.io/TriviaGame
 
